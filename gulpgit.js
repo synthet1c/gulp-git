@@ -54,7 +54,7 @@ gulpgit = {
 
 	commit: addFirst(function( msg, cb ){
 		var self = this,
-		    command = 'git commit -m \"' + this._message + '\"';
+		    command = 'git commit -m \"' + (this._message || 'did some stuff') + '\"';
 		return execCommand( command, function( err, stdout ){
 			return cb && cb( err, stdout );
 		});
