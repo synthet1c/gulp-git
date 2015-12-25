@@ -1,12 +1,11 @@
-var exec = require( 'child_process' ).exec;
+var exec = require( 'child_process' ).exec,
+    branch = 'master',
+    origin = 'origin',
+    message = 'initial commit',
+    count = 0,
+    gulpgit;
 
-function GulpGit(){
-	this.branch     = 'master';
-	this.origin     = 'origin';
-	this.message    = 'initial commit';
-	this.count      = 0;
-}
-GulpGit.prototype = {
+gulpgit = {
 	/**
 	 * squash
 	 *
@@ -49,13 +48,13 @@ GulpGit.prototype = {
 		});
 	},
 
-	commit: function( cb ){
+	commit: addFirst(function( msg, cb ){
 		var self = this,
-		    command = 'git commit -m \"' + this.message + '\"';
+		    command = 'git commit -a -m \"' + this.message + '\"';
 		return execCommand( command, function( err, stdout ){
 			return cb && cb( err, stdout );
 		});
-	},
+	}),
 
 	add: function( fileArr, cb ){
 		var self    = this,
@@ -80,6 +79,11 @@ GulpGit.prototype = {
 	}
 };
 
+function addFirst( cb ){
+	return function( fn ){
+		return gulpgit.add( cb );
+	}
+}
 
 function execCommand( command, cb ){
 	return exec( command,
@@ -104,4 +108,4 @@ function handleErr(fn){
 	}
 }
 
-module.exports = new GulpGit;
+module.exports = gulpgit;
