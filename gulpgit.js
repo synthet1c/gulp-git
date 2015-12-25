@@ -85,7 +85,7 @@ gulpgit = {
 
 function addFirst( cb ){
 	return function( fn ){
-		return gulpgit.add( null, cb );
+		return gulpgit.add.call( this, null, cb );
 	}
 }
 
