@@ -1,7 +1,7 @@
 var exec = require( 'child_process' ).exec,
     branch = 'master',
     origin = 'origin',
-    message = 'initial commit',
+    message = 'testing the commit message',
     count = 0,
     gulpgit;
 
@@ -50,7 +50,7 @@ gulpgit = {
 
 	commit: addFirst(function( msg, cb ){
 		var self = this,
-		    command = 'git commit -a -m \"' + this.message + '\"';
+		    command = 'git commit -m \"' + this.message + '\"';
 		return execCommand( command, function( err, stdout ){
 			return cb && cb( err, stdout );
 		});
@@ -81,7 +81,7 @@ gulpgit = {
 
 function addFirst( cb ){
 	return function( fn ){
-		return gulpgit.add( cb );
+		return gulpgit.add( null, cb );
 	}
 }
 
