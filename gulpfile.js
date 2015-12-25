@@ -2,6 +2,7 @@ var
 	gulp        = require( 'gulp' ),
     args        = require( 'yargs' ).argv,
     git         = require( 'gulp-git' ),
+    gulpgit     = require('./gulpgit'),
 	xlog        = require( './xlog' ),
 	gulpterm    = require( './gulp-term' ),
 	margs       = require('./args'),
@@ -31,7 +32,11 @@ xlog('<red>' + JSON.stringify( margs, 0, 2 ) + '</red>');
 //}
 
 gulp.task( 'save', function(){
-	xlog( '<blue>git commit -m "$1" ' + Date.now() + '</blue>', _commit );
+	gulpgit.add(null, function(){
+		gulpgit.commit( null, function(){
+			xlog( '<blue>commited</blue>' );
+		});
+	});
 } );
 
 gulpterm.init( gulp );
@@ -54,6 +59,7 @@ gulpterm.add('commit', {
 	help: 'change your <p>commit</p> message `<purple>commit {{commit message}}</purple>`',
 	cb  : function( commit ){
 		commit && (_commit = commit);
+		gulpgit.commit( _commit );
 		gulpterm.log( '<cyan>git commit -m `$1`</cyan>', _commit );
 	}
 });

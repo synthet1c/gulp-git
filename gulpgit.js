@@ -1,6 +1,11 @@
 var exec = require( 'child_process' ).exec;
 
-function GulpGit(){}
+function GulpGit(){
+	this.branch     = 'master';
+	this.origin     = 'origin';
+	this.message    = 'initial commit';
+	this.count      = 0;
+}
 GulpGit.prototype = {
 	/**
 	 * squash
@@ -14,10 +19,50 @@ GulpGit.prototype = {
 	squash: function squash( count, msg, cb ){
 		var
 			self = this,
-			command = 'git reset --soft HEAD~' + (count || 1) + ' && git commit -m "' + msg + '"';
+			command = 'git reset --soft HEAD~' + (count || this.count ) + ' && git commit -m "' + ( msg || this.msg ) + '"';
 		return execCommand( command, function( err ){
 			self.push(cb);
 		});
+	},
+
+	msg: function msg( msg ){
+
+		//this.commit( this.msg, function(){
+		//	this.push();
+		//});
+
+		// this.squash( this.count, this.msg );
+		this.message = msg;
+		this.count = 0;
+
+		//this.commit( this.msg, function(){
+		//	this.push();
+		//} );
+	},
+
+	branch: function( branch, cb ){
+		this.branch = branch;
+		var self = this,
+		    command = 'git branch -b ' + branch;
+		return execCommand( command, function( err, stdout ){
+			return cb( err, stdout );
+		});
+	},
+
+	commit: function( cb ){
+		var self = this,
+		    command = 'git commit -m \"' + this.message + '\"';
+		return execCommand( command, function( err, stdout ){
+			return cb && cb( err, stdout );
+		});
+	},
+
+	add: function( fileArr, cb ){
+		var self    = this,
+		    command = 'git add .';
+		return execCommand( command, function( err, stdout ){
+			return cb && cb( err, stdout );
+		} );
 	},
 	/**
 	 * push
@@ -28,7 +73,9 @@ GulpGit.prototype = {
 	 * @param {String}  origin      location to push default: origin
 	 */
 	push: function push( branch, origin ){
-		var command = 'git push ' + ( origin || 'origin') + ' ' + ( branch || 'master');
+		branch && (this.branch = branch);
+		origin && (this.origin = origin);
+		var command = 'git push ' + ( this.origin ) + ' ' + ( this.branch );
 		return execCommand( command, cb );
 	}
 };
