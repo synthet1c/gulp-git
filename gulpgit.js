@@ -1,8 +1,8 @@
 var exec = require( 'child_process' ).exec,
-    branch = 'master',
-    origin = 'origin',
-    message = 'testing the commit message',
-    count = 0,
+    _branch = 'master',
+    _origin = 'origin',
+    _message = 'testing the commit message',
+    _count = 0,
     gulpgit;
 
 gulpgit = {
@@ -22,7 +22,7 @@ gulpgit = {
 	squash: function squash( count, msg, cb ){
 		var
 			self = this,
-			command = 'git reset --soft HEAD~' + (count || this._count ) + ' && git commit -m "' + ( msg || this._message || 'did some stuff' ) + '"';
+			command = 'git reset --soft HEAD~' + (count || _count ) + ' && git commit -m "' + ( msg || _message || 'did some stuff' ) + '"';
 		return execCommand( command, function( err ){
 			self.push(cb);
 		});
@@ -54,7 +54,7 @@ gulpgit = {
 
 	commit: addFirst(function( msg, cb ){
 		var self = this,
-		    command = 'git commit -m \"' + (this._message || 'did some stuff') + '\"';
+		    command = 'git commit -m \"' + (_message || 'did some stuff') + '\"';
 		return execCommand( command, function( err, stdout ){
 			return cb && cb( err, stdout );
 		});
@@ -78,7 +78,7 @@ gulpgit = {
 	push: function push( cb ){
 		branch && (this._branch = branch);
 		origin && (this._origin = origin);
-		var command = 'git push ' + ( this._origin ) + ' ' + ( this._branch );
+		var command = 'git push ' + ( _origin ) + ' ' + ( _branch );
 		return execCommand( command, cb );
 	}
 };
