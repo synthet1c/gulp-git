@@ -22,7 +22,7 @@ gulpgit = {
 	squash: function squash( count, msg, cb ){
 		var
 			self = this,
-			command = 'git reset --soft HEAD~' + (count || this._count ) + ' && git commit -m "' + ( msg || this._message ) + '"';
+			command = 'git reset --soft HEAD~' + (count || this._count ) + ' && git commit -m "' + ( msg || this._message || 'did some stuff' ) + '"';
 		return execCommand( command, function( err ){
 			self.push(cb);
 		});
