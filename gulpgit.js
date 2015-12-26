@@ -55,9 +55,7 @@ gulpgit = {
 	commit: addFirst(function( msg, cb ){
 		var self = this,
 		    command = 'git commit -m \"' + (_message || 'did some stuff') + '\"';
-		return execCommand( command, function( err, stdout ){
-			return cb && cb( err, stdout );
-		});
+		return execCommand( command, cb);
 	}),
 
 	add: function( fileArr, cb ){
@@ -76,8 +74,8 @@ gulpgit = {
 	 * @param {String}  origin      location to push default: origin
 	 */
 	push: function push( cb ){
-		branch && (this._branch = branch);
-		origin && (this._origin = origin);
+		branch && (_branch = branch);
+		origin && (_origin = origin);
 		var command = 'git push ' + ( _origin ) + ' ' + ( _branch );
 		return execCommand( command, cb );
 	}
