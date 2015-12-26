@@ -34,7 +34,10 @@ xlog('<red>' + JSON.stringify( margs, 0, 2 ) + '</red>');
 gulp.task( 'save', function(){
 	gulpgit.commit( null, function(){
 		xlog( '<blue>commited</blue>' );
-		gulpterm.prompt();
+		gulpgit.push(null, function(){
+			xlog( '<blue>pushed</blue>' );
+			gulpterm.prompt();
+		});
 	});
 } );
 
