@@ -1,5 +1,5 @@
 var exec = require( 'child_process' ).exec,
-    _branch = 'master',
+    _branch = 'test',
     _origin = 'origin',
     _message = 'testing the commit counter',
     _count = 0,
@@ -7,7 +7,7 @@ var exec = require( 'child_process' ).exec,
 
 gulpgit = {
 	_message: 'testing the commit message',
-	_branch: 'master',
+	_branch: 'test',
 	_origin: 'origin',
 	_count: 0,
 	/**
@@ -22,9 +22,9 @@ gulpgit = {
 	squash: function squash( count, msg, cb ){
 		var
 			self = this,
-			command = 'git reset --soft HEAD~' + (count || _count ) + ' && git commit -m "' + ( msg || _message || 'did some stuff' ) + '"';
+			command = 'git reset --soft HEAD~' + ( count || _count ) + ' && git commit -m "' + ( msg || _message ) + '"';
 		return execCommand( command, function( err ){
-			self.push(cb);
+			return self.push(cb);
 		});
 	},
 
