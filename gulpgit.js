@@ -6,10 +6,6 @@ var exec = require( 'child_process' ).exec,
     gulpgit;
 
 gulpgit = {
-	_message: 'testing the commit message',
-	_branch: 'test',
-	_origin: 'origin',
-	_count: 0,
 	/**
 	 * squash
 	 *
