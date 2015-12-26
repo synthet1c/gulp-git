@@ -1,12 +1,17 @@
 var
 	readline = require( 'readline' ),
     xlog     = require('./xlog'),
-    rl       = readline.createInterface( {
+    rl       = readline.createInterface({
 	    input: process.stdin,
 	    output: process.stdout
     }),
     askcb    = null,
-    _gulp    = null;
+    _gulp    = null,
+    // http://ascii-table.com/ansi-escape-sequences-vt-100.php
+    ascicmd = {
+		'clear-screen': '\u001B[2J\u001B[0;0f',
+	    'clear-line': '\u001B[2K'
+	};
 
 var gulpterm = {
 	init: function( gulp ){

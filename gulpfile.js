@@ -55,11 +55,12 @@ gulpterm.add('push', {
 });
 
 gulpterm.add('commit', {
-	help: 'change your <p>commit</p> message `<purple>commit {{commit message}}</purple>`',
-	cb  : function( commit ){
-		commit && (_commit = commit);
-		gulpgit.commit( _commit );
-		gulpterm.log( '<cyan>git commit -m `$1`</cyan>', _commit );
+	help: 'change your commit message `<purple>commit {{commit message}}</purple>`',
+	cb  : function( message ){
+		gulpgit.commit( message, function(){
+			gulpterm.log( '<cyan>git commit -m `$1`</cyan>', _commit );
+			gulpterm.prompt();
+		});
 	}
 });
 
@@ -77,6 +78,29 @@ gulpterm.add('branch', {
 			_branch = branch;
 			gulpterm.log( '<cyan>git branch -b `$1`</cyan>', _branch );
 		}
+	}
+});
+
+gulpterm.add('cls', {
+	help: 'clear the console `<purple>cls</purple>`',
+	cb: function(){
+		gulpterm.log('\u001B[2J\u001B[0;0f');
+	}
+});
+
+gulpterm.add('cl', {
+	help: 'clear the console `<purple>cls</purple>`',
+	cb: function(){
+		gulpterm.log( '\u001B[2K' );
+		return false;
+	}
+});
+
+gulpterm.add('prompt', {
+	help: 'change the prompt in the terminal',
+	cb: function( prompt ){
+		gulpterm.prompt(prompt);
+		return false;
 	}
 });
 
