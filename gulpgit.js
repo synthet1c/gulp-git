@@ -75,8 +75,6 @@ gulpgit = {
 	 * @param {String}  origin      location to push default: origin
 	 */
 	push: function push( cb ){
-		branch && (_branch = branch);
-		origin && (_origin = origin);
 		var command = 'git push ' + ( _origin ) + ' ' + ( _branch );
 		return execCommand( command, cb );
 	}
